@@ -10,7 +10,7 @@ import UIKit
 
 class InitialTableViewController: UITableViewController {
   
-  let itemArray = ["Shit", "Eat", "Sleep"]
+  var itemArray = ["Shit", "Eat", "Sleep"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +43,30 @@ class InitialTableViewController: UITableViewController {
     tableView.deselectRow(at: indexPath, animated: true)
   }
   
+  //MARK: - Add new items
+  
+  @IBAction func addbuttonPressed(_ sender: UIBarButtonItem) {
+    var textfield = UITextField()
+    let alert = UIAlertController(title: "Add new todo", message: "", preferredStyle: .alert)
+    let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+      if textfield.text == nil {
+        return
+      } else {
+        self.itemArray.append(textfield.text!)
+        self.tableView.reloadData()
+      }
+      
+    }
+    alert.addTextField { (alertTextField) in
+      alertTextField.placeholder = "create new item"
+      textfield = alertTextField
+      
+      
+      print("now")
+    }
+    alert.addAction(action)
+    present(alert, animated: true, completion: nil)
+  }
   
   
 
