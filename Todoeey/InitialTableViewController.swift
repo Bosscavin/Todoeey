@@ -11,9 +11,15 @@ import UIKit
 class InitialTableViewController: UITableViewController {
   
   var itemArray = ["Shit", "Eat", "Sleep"]
+  
+  let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+      if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+        itemArray = items
+      }
 
     }
 
@@ -49,10 +55,18 @@ class InitialTableViewController: UITableViewController {
     var textfield = UITextField()
     let alert = UIAlertController(title: "Add new todo", message: "", preferredStyle: .alert)
     let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+      //  what will happen once the user clicks the add Item button on our UIAlert
+      
+      print(textfield.text!)
+
       if textfield.text == nil {
         return
       } else {
         self.itemArray.append(textfield.text!)
+        
+        self.defaults.set(self.itemArray, forKey: "TodoListArray")
+        
+        
         self.tableView.reloadData()
       }
       
@@ -61,8 +75,7 @@ class InitialTableViewController: UITableViewController {
       alertTextField.placeholder = "create new item"
       textfield = alertTextField
       
-      
-      print("now")
+    
     }
     alert.addAction(action)
     present(alert, animated: true, completion: nil)
